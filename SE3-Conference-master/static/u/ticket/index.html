@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+    <title>会佳</title>
+    <link rel="stylesheet" type="text/css" href="/u/ticket/style.css" />
+    <!--[if lt IE 8]><script src="./json3.min.js"></script><![endif]-->
+
+</head>
+<body>
+<div id="ticket" onclick="jumpToEnrollList()">
+
+</div>
+</body>
+<script type="text/template" id="tpl-ticket">
+    <div id="ticket-frame" style="display:block;width:100%">
+        <div class="ticket-info">
+            <div class="ticket-clearfix">
+                <div class="ticket_topbar">
+                    <div class="ticket-name">
+                     {{ ticket.conf_name }}
+                    </div>
+
+                </div>
+                <div class="price color"><span id="ticket_show_price_7561">￥ {{ ticket.price }}</span>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</script>
+<script src="/3rd/jquery.js"></script>
+<script src="/3rd/swig.js"></script>
+<script src="/js/weixin_lib.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/details.js"></script>
+<script>
+    var locals = {};
+    $(function () {
+        api.get('/wechat/api/getConfPrice', {conf_id: urlParam.conf_id}, function (data) {
+            locals.ticket = data;
+            $('#ticket').html(swig.render($('#tpl-ticket').html(), {locals: locals}));
+        }, dftFail);
+    });
+    jumpToEnrollList = function () {
+        window.location.href = "./enroll?conf_id=" + urlParam.conf_id + "&user_id=" + urlParam.user_id;
+    }
+</script>
+</html>

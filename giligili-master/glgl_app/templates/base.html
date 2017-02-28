@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Giligili - {% block title %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
+	{% block extracss %}{% endblock %}
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+	<div class="container">
+		<!-- 移动设备上将导航栏整合为按钮 -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href='/'><img src='/static/images/logo.png' style ="height:48px;"/></a>
+		</div>
+
+		<!-- 导航栏 -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="menu"><a href="/">首页</a></li>
+				<li class="menu"><a href="/category/1">THU校内</a></li>
+				<li class="menu"><a href="/category/2">动画</a></li>
+				<li class="menu"><a href="/category/3">音乐</a></li>
+				<li class="menu"><a href="/category/4">舞蹈</a></li>
+				<li class="menu"><a href="/category/5">游戏</a></li>
+				<li class="menu"><a href="/category/6">科技</a></li>
+				<li class="menu"><a href="/category/7">生活</a></li>
+				<li class="menu"><a href="/category/8">娱乐</a></li>
+				{% if user.is_authenticated %}
+					<li class="menu dropdown">
+						<a href="#" class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">我的
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<li><a href="/homepage/{{ user.id }}">个人主页</a></li>
+							<li><a href="/home">个人信息</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/upload">上传视频</a></li>
+							<li><a href = "/setpassword">修改密码</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="/logout">登出</a></li>
+						</ul>
+					</li>
+					{% if user.is_staff %}
+					<li class="menu dropdown">
+						<a href="#" class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown">管理
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<li><a href="/check">审核视频</a></li>
+							<li><a href="/banvideo">查看已封禁视频</a></li>
+							{% if user.is_superuser %}
+							<li role="separator" class="divider"></li>
+							<li><a href="/admin">网站管理</a></li>
+							{% endif %}
+						</ul>
+					</li>
+					{% endif %}
+				{% else %}
+					<li class="menu"><a href="/login">登录</a></li>
+					<li class="menu"><a href="/register">注册</a></li>
+				{% endif %}
+			</ul>
+			<form class="navbar-form navbar-right" role="search" action="/search/" method="get">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search" name="title_include">
+				</div>
+				<button type="submit" class="btn btn-default">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>搜索
+				</button>
+			</form>
+		</div>
+
+	</div>
+
+</nav>
+<div class="container">
+	{% block content %}{% endblock %}
+</div>
+
+{% block footer %}
+	<div class="footer">
+		<p>Giligili在线视频网站</p>
+	</div>
+{% endblock %}
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/layer-2.x/layer.js"></script>
+
+{% block extrascripts %}{% endblock %}
+
+</body>
+</html>

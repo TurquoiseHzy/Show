@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #content {
+            padding-top: 80px;
+        }
+    </style>
+    <link href="/3rd/bs/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/css/activity_list.css" />
+
+    <title>会议列表</title>
+</head>
+<body>
+    <header class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="cursor:default" id="nav-title"></a>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav" id="nav-li"></ul>
+                <ul class="nav navbar-nav navbar-right" id="nav-li-right"></ul>
+            </div>
+        </div>
+    </header>
+    <div id="content"></div>
+
+    <footer class="bs-footer" role="contentinfo">
+        <hr>
+        <div class="container" id="footer" style="text-align: center"></div>
+    </footer>
+
+<script type="text/template" id="tpl-nav-title">
+“会佳”票务管理系统
+</script>
+
+<script type="text/template" id="tpl-nav-li">
+</script>
+
+<script type="text/template" id="tpl-nav-li-right">
+</script>
+
+<script type="text/template" id="tpl-content">
+    <div class="container" xmlns="http://www.w3.org/1999/html">
+        <div class="pageheader">
+            <h1 class="lead">会议列表</h1>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>会议名称</th>
+                    <th>票务价格</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="tbody-activities">
+                {% for conf in conferences %}
+                <tr>
+
+                    <td class="td-name">
+                        {{ conf.conf_name }}
+                    </td>
+                    <td class="td-price">
+                        <input type="text" name="lname" id="price_{{ conf.conf_id }}" value="{{ conf.price }}"/>
+                    </td>
+                    <td>
+                        <button onclick="changePrice({{ conf.conf_id }})" class="btn btn-default">确认修改</button>
+                        <button onclick="remind({{ conf.conf_id }})" class="btn btn-default">提醒用户</button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</script>
+
+
+<script src="/3rd/jquery.js"></script>
+<script src="/3rd/bs/js/bootstrap.min.js"></script>
+<script src="/3rd/swig.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/base_admin.js"></script>
+<script src="/js/activity_list.js"></script>
+
+<script>
+    var locals = {
+        conferences: []
+    };
+    var renderTemplate = function (name) {
+        $('#' + name).html(swig.render($('#tpl-' + name).html(), {locals: locals}));
+    };
+    var render = function () {
+        renderTemplate('nav-title');
+        renderTemplate('nav-li');
+        renderTemplate('nav-li-right');
+        renderTemplate('content');
+        createtips();
+    };
+    $(function () {
+        swig.setDefaultTZOffset(new Date().getTimezoneOffset());
+        render();
+        loginRequired(function () {
+            api.get('/wechat/api/conferenceList', {}, function (data) {
+                locals.conferences = data;
+                render();
+            }, dftFail);
+        });
+    });
+    changePrice = function (conf_id) {
+        var price = parseInt($('#price_'+conf_id.toString())[0].value);
+        //console.log(price);
+        api.post('/wechat/api/price', {conf_id: conf_id, price: price},
+                (alert('成功将会议' + conf_id.toString() + '号价格修改为' + price.toString())),dftFail);
+    }
+
+    remind = function (conf_id) {
+        api.get('/wechat/api/remind',{conf_id: conf_id},(alert('成功提醒了会议' + conf_id.toString() + '号的订阅用户')),dftFail);
+    }
+</script>
+</body>
+</html>

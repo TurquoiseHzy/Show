@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}个人主页{% endblock %}
+
+{% block content %}
+    <div id="top_area">
+        <div class="center">
+            <div class="row bar_headImg">
+                <div class="col-md-12 col-sm-12">
+                    <img class="small-headimage" src='/media/{{pageuser.userextraprofile.headimage}}'>
+                    <br>
+                    <label class="page_username">用户名：{{ pageuser.username }}</label>
+                    <label>昵称：{{pageuser.userextraprofile.nickName}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="middle_content">
+        <div class="row bar_content">
+            <div class="col-sm-12 col-md-8 box-left">
+                <div class="panel panel-success">
+                    <div class="panel-heading">该UP主上传的视频</div>
+                    <div class="panel-body">
+                        <div class="m-row">
+                            {% if video_set %}
+                                {% for video in video_set %}
+                                    <div class="col-md-3 col-sm-6 col-xs-12 show-video">
+                                        <a href="/video/{{ video.id }}" title="{{ video.title }}"> <img src="/media/{{video.cover}}" class="img-responsive center-block"/> </a>
+                                        <h3>{{ video.title }}</h3>
+                                        <div class="glyphicon glyphicon-play" aria-hidden="true">：<span id = "playnum">{{video.play}}</span></div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>Ta还没有上传过视频哦</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 box-left">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">Ta的资料</div>
+                    <div class="panel-body">
+                        <p>自我描述：{{ pageuser.userextraprofile.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

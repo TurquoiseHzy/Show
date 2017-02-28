@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no"/>
+        <meta name="format-detection" content="email=no"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <title>会佳</title>
+        <link rel="stylesheet" type="text/css" href="/u/enroll/style.css" />
+        <!--[if lt IE 8]><script src="./json3.min.js"></script><![endif]-->
+    </head>
+    <body>
+        <div class="person-info">
+            <div class="person-clearfix">
+                <div class="ticket_topbar">
+                    <div align="center" class="person-name">
+                        <h1 style="text-align:center;"><b>参会者信息</b></h1>
+                    </div>
+                    
+                </div>
+            </div>
+            <div  class="input_box">
+            <p style="padding:3px;"> 姓名 <span style="color:red;">*</span></p>
+            <input style="width:100%;"name="姓名"/>
+            </div>
+            
+            <div class="input_box">
+            <p style="padding:3px;"> 邮箱 <span style="color:red;">*</span> </p>
+            <input style="width:100%;"name="邮箱"/>
+            </div>
+            
+            <div class="input_box">
+            <p style="padding:3px;"> 手机号 <span style="color:red;">*</span> </p>
+            <input style="width:100%;" type="number" name="tel"/>
+            </div>
+            
+            <div  class="input_box">
+            <p style="padding:3px;"> 公司/单位 <span style="color:red;">*</span></p>
+            <input style="width:100%;"name="公司/单位"/>
+            </div>
+            
+            <div  class="input_box">
+            <p style="padding:3px;"> 职位 <span style="color:red;">*</span></p>
+            <input style="width:100%;"name="职位"/>
+            </div>
+        </div> 
+        <div style="text-align:center;">         
+		<button align="center" onclick="jumpToDetail()">提交 </button>
+		</div>
+    </body>
+</html>
+
+<script src="/3rd/jquery.js"></script>
+<script src="/3rd/swig.js"></script>
+<script src="/js/weixin_lib.js"></script>
+<script src="/js/base.js"></script>
+<script src="/js/details.js"></script>
+<script>
+    jumpToDetail = function() {
+        api.post("/wechat/api/joinConf", {conf_id: urlParam.conf_id, user_id: urlParam.user_id}, function (data) {
+            if(data){
+                alert("加入会议成功！");
+                window.location.href = "http://m2.huiplus.com.cn/app/#/confinfo/" + urlParam.conf_id;
+            }
+            else{
+                alert("加入会议失败！");
+            }
+        });
+
+    }
+</script>

@@ -1,0 +1,40 @@
+.footer {
+    text-align: center;
+    bottom: 0;
+    color: #000;
+    width: 100%;
+    padding: 19px 15px 0 15px;
+}
+
+html, body {
+    font-family: "Roboto", "Microsoft YaHei", "ºÚÌå", "ËÎÌå", sans-serif;
+}
+
+.navbar{
+	background-color: rgba(0,2,64,1);
+    border-color: rgba(0,2,64,1);
+    z-index: 1000;
+}
+
+.container {
+    max-width: 1300px;
+}
+
+.num {
+    color: orange;
+    margin-left: 3px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: rgb(204,204,221)
+}
+
+.navbar-default .navbar-nav>li>a:focus,.navbar-default .navbar-nav>li>a:hover {
+    color: rgb(139,140,180);
+    background-color: transparent
+}
+
+.small-headimage{
+	height:90px;
+	width:90px;
+}

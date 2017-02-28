@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+
+{% block extracss %}
+	<link href="/static/css/index.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+	{% if popular_videos or pageTitle == '首页' %}
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div id="myCarousel" class="carousel slide">
+		<!-- 轮播（Carousel）指标 -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+		</ol>
+		<!-- 轮播（Carousel）项目 -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<a href='/video/43/'><img src="/static/images/lb1.jpg" alt="First slide"></a>
+			</div>
+			<div class="item">
+				<a href='/video/31/'><img src="/static/images/lb2.jpg" alt="Second slide"></a>
+			</div>
+			<div class="item">
+				<a href='/about/'><img src="/static/images/lb3.jpg" alt="Third slide"></a>
+			</div>
+		</div>
+		<!-- 轮播（Carousel）导航 -->
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+	
+		{% for video in popular_videos %}
+		<div class="col-md-3 col-sm-6 col-xs-12 dd-grid">
+			<figure class="effect-sadie">
+				<img src="media/{{video.cover}}" alt="img02" class="img-responsive center-block"/>
+				<figcaption>
+				<h2>{{ video.title }}</h2>
+				<p>up主: {{ video.uploader.username }} <br>播放量: {{ video.play }}</p>
+				<a href="{{ video.get_absolute_url }}">View more</a>
+				</figcaption>
+			</figure>
+		</div>
+		{% endfor %}
+
+	{% else %}
+		{% for video in category_videos %}
+		<div class="col-md-3 col-sm-6 col-xs-12 dd-grid">
+			<figure class="effect-sadie">
+				<img src="/media/{{video.cover}}" alt="img02" class="img-responsive center-block"/>
+				<figcaption>
+				<h2>{{ video.title }}</h2>
+				<p>up主: {{ video.uploader.username }} <br>播放量: {{ video.play }}</p>
+				<a href="{{ video.get_absolute_url }}">View more</a>
+				</figcaption>
+			</figure>
+		</div>
+		{% endfor %}
+		
+	{% endif %}
+
+{% endblock %}

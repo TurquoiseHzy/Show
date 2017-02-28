@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}上传视频{% endblock %}
+
+{% block content %}
+    <div class="center">
+        <div class="panel panel-default panel-body">
+            <h3 style = "text-align:center">上传视频</h3>
+            {% if error %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>Error!</strong> {{ error }}
+                </div>
+            {% endif %}
+            <div id="show-error"></div>
+            <form class="form-base" onsubmit="return check(this)" action="" method="post"
+                  enctype="multipart/form-data"> {% csrf_token %}
+                <div class="m-row">
+                    <label for="id_video">文件*</label>
+                    <input type="file" accept="video/*" class="form-control" id="id_video" name="video">
+                </div>
+
+                <div class="m-row">
+                    <label for="id_cover">缩略图</label>
+                    <input type="file" accept="image/*" class="form-control" id="id_cover" name="cover">
+                </div>
+
+                <div class="m-row">
+                    <label for="id_title">标题*</label>
+                    <input type="text" class="form-control" placeholder="请输入标题" id="id_title" maxlength="100" name="title"
+                           value="{{ form.title.value }}">
+                </div>
+
+                <div class="m-row">
+                    <label for="id_description">描述*</label>
+                    <input type="text" class="form-control" placeholder="请输入视频描述" id="id_description" name="description"
+                           value="{{ form.description.value }}">
+                </div>
+
+                <div class="m-row">
+                    <label for="id_categories">分类</label>
+					<select class ="form-control" name = "category">
+					<option value="1">THU校内</option>
+					<option value="2">动画</option>
+					<option value="3">音乐</option>
+					<option value="4">舞蹈</option>
+					<option value="5">游戏</option>
+					<option value="6">科技</option>
+					<option value="7">生活</option>
+					<option value="8">娱乐</option>
+					</select>
+                </div>
+
+                <div class="m-row">
+                    <label for="id_tag">关键词</label>
+                    <input type="text" class="form-control" placeholder="" id="id_tag" name="tag"
+                           value="{{ form.tag.value }}">
+                </div>
+                <div class="m-row" style="text-align: center">
+                    <input type="submit" class="btn btn-success btn-lg" style="margin-top: 10px" value="上传视频">
+                </div>
+                <div class="m-row" style="text-align: center">
+                	<a href = "/" class = "btn btn-default btn-lg" style="margin-top: 10px">返回主页</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extracss %}
+    <link rel="stylesheet" type="text/css" href="/static/css/upload.css"/>
+{% endblock %}
+
+{% block extrascripts %}
+    <script type="text/javascript" src="/static/js/form-check.js"></script>
+    <script type="text/javascript" src="/static/js/video-upload-form.js"></script>
+{% endblock %}
